@@ -41,11 +41,14 @@ public class PracticeFormPage extends BasePage {
     @FindBy(xpath = "//textarea[@id='currentAddress']")
     WebElement inputAddress;
 
-    @FindBy(xpath = "//div[text()='Select State']")
-    WebElement btnState;
+    @FindBy(xpath = "//input[@id='react-select-3-input']")
+    WebElement inputState;
 
-    @FindBy(xpath = "//div[text()='Select City']")
-    WebElement btnCity;
+    @FindBy(xpath = "//input[@id='react-select-4-input']")
+    WebElement inputCity;
+
+    @FindBy(xpath = "//button[@id='submit']")
+    WebElement btnSubmit;
 
     public void typePracticeForm(Student student) {
         hideBanner();
@@ -58,6 +61,8 @@ public class PracticeFormPage extends BasePage {
         typeSubjects(student.getSubjects());
         typeHobbies(student.getHobbies());
         inputAddress.sendKeys(student.getAddress());
+        typeStateCity(student.getState(), student.getCity());
+        btnSubmit.click();
     }
 
     private void typeGender(Gender gender) {
@@ -101,6 +106,20 @@ public class PracticeFormPage extends BasePage {
                     break;
             }
         }
+    }
+
+    private void typeStateCity(String state, String city) {
+        inputState.sendKeys(state);
+        inputState.sendKeys(Keys.ENTER);
+        inputCity.sendKeys(city);
+        inputCity.sendKeys(Keys.ENTER);
+    }
+
+    @FindBy(xpath = "//div[text()='Thanks for submitting the form']")
+    WebElement modalMessage;
+
+    public boolean validateModalMessage() {
+        return validateTextElement(modalMessage, "Thanks for submitting the form");
     }
 
 }
